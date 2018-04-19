@@ -1,0 +1,35 @@
+/**
+* create By Songbw on 2018/4/16
+* */
+.my-checkbox{
+  .el-checkbox{
+    width:200px;
+  }
+  .el-checkbox+.el-checkbox{
+    margin-left:0;
+  }
+}
+.item-container{
+  position: relative;
+  .mask{
+    position: absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    cursor: move;
+    &:hover{
+      border:1px solid #366;
+      background: rgba(0,0,0, .1);
+    }
+    .command{
+      width:30px;
+      font-size:30px;
+      float: right;
+      i{
+        cursor: pointer;
+      }
+    }
+  }
+}
+
