@@ -1,0 +1,29 @@
+{
+  "obj": [
+    {
+      "code": "radio",
+      "index": 0,
+      "name": "单选题"
+    },
+    {
+      "code": "select",
+      "index": 1,
+      "name": "多选题"
+    },
+    {
+      "code": "text",
+      "index": 2,
+      "name": "单行文本"
+    },
+    {
+      "code": "textarea",
+      "index": 3,
+      "name": "多行文本"
+    },
+    {
+      "code": "description",
+      "index": 13,
+      "name": "段落描述"
+    }
+  ]
+}
