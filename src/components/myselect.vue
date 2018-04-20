@@ -20,8 +20,9 @@
 </template>
 <script>
   import EditorItem from '@/components/editor-item'
-  import {mapMutations, mapState} from 'vuex'
+  import {createNamespacedHelpers} from 'vuex'
 
+  const {mapMutations, mapState} = createNamespacedHelpers('editorItem')
   export default {
     name: 'MySelect',
     props: ['times', 'data'],
@@ -31,8 +32,8 @@
       }
     },
     computed: {
-      ...mapState('editorItem', ['formList']),
-      rules(){
+      ...mapState(['formList']),
+      rules() {
         return {required: this.data.isRequired}
       },
       canEditor: {
@@ -47,7 +48,7 @@
       }
     },
     methods: {
-      ...mapMutations('editorItem', ['modifyFormList'])
+      ...mapMutations(['modifyFormList'])
     },
     components: {
       EditorItem

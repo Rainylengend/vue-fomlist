@@ -1,26 +1,27 @@
 <template>
   <div class="preview margin-auto">
     <el-form :model="formInfo" ref="form" label-width="130px">
+      <h1 class="form-name" v-html="title"></h1>
       <div
         v-for="(item, parentIndex) in formList"
         class="inner">
-        <div v-html="item.title" v-if="item.titleType === '5'"></div>
+        <div v-html="item.title" v-if="item.titleType === 13"></div>
         <el-form-item
           v-else
           :rules="{required: item.isRequired}"
           :key="parentIndex"
           :label="`${item.title}：`">
-          <el-radio-group v-if="item.titleType === '0'" v-model="formInfo[parentIndex]">
+          <el-radio-group v-if="item.titleType === 0" v-model="formInfo[parentIndex]">
             <el-radio :key="index" v-for="(child, index) in item.currentItem" :label="index">{{ child }}</el-radio>
           </el-radio-group>
-          <el-checkbox-group v-else-if="item.titleType === '1'" v-model="formInfo['arr' + parentIndex]">
+          <el-checkbox-group v-else-if="item.titleType === 1" v-model="formInfo['arr' + parentIndex]">
             <el-checkbox :key="index" v-for="(child, index) in item.currentItem" :label="index">{{child}}</el-checkbox>
           </el-checkbox-group>
-          <el-select v-else-if="item.titleType === '2'" v-model="formInfo[parentIndex]">
+          <el-select v-else-if="item.titleType === 2" v-model="formInfo[parentIndex]">
             <el-option :key="index" v-for="(child, index) in item.currentItem" :label="child" :value="index"></el-option>
           </el-select>
-          <el-input v-else-if="item.titleType === '3'" v-model="formInfo[parentIndex]"></el-input>
-          <el-input v-else-if="item.titleType === '4'" type="textarea" v-model="formInfo[parentIndex]"></el-input>
+          <el-input v-else-if="item.titleType === 3" v-model="formInfo[parentIndex]"></el-input>
+          <el-input v-else-if="item.titleType === 4" type="textarea" v-model="formInfo[parentIndex]"></el-input>
         </el-form-item>
       </div>
 
@@ -37,7 +38,7 @@
       }
     },
     computed: {
-      ...mapState('editorItem', ['formList'])
+      ...mapState('editorItem', ['formList', 'title'])
     },
     filters: {
       obj(val) {
@@ -68,5 +69,9 @@
   }
   .inner {
     min-height: 100px;
+  }
+  .form-name {
+    text-align: center;
+    padding: 30px 0;
   }
 </style>

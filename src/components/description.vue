@@ -7,11 +7,13 @@
 </template>
 <script>
   import EditorItem from '@/components/editor-item'
-  import {mapMutations, mapState} from 'vuex'
+  import {createNamespacedHelpers} from 'vuex'
+
+  const {mapMutations, mapState} = createNamespacedHelpers('editorItem')
   export default {
     props: ['times', 'data'],
     computed: {
-      ...mapState('editorItem', ['formList']),
+      ...mapState(['formList']),
       canEditor: {
         get() {
           return this.data.canEditor
@@ -24,7 +26,7 @@
       }
     },
     methods: {
-      ...mapMutations('editorItem', ['modifyFormList'])
+      ...mapMutations(['modifyFormList'])
     },
     components: {
       EditorItem

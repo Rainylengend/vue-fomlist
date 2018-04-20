@@ -9,8 +9,9 @@
 </template>
 <script>
   import WangEditor from '@/components/wangeditor'
-  import {mapState, mapMutations} from 'vuex'
+  import {createNamespacedHelpers} from 'vuex'
 
+  const {mapState, mapMutations} = createNamespacedHelpers('editorItem')
   export default {
     name: 'EditorText',
     props: ['times'],
@@ -20,16 +21,16 @@
       }
     },
     computed: {
-      ...mapState('editorItem', ['formList'])
+      ...mapState(['formList'])
     },
     methods: {
-      ...mapMutations('editorItem', ['modifyFormList']),
+      ...mapMutations(['modifyFormList']),
       getHtml(html) {
         this.html = html
       },
       enter() {
         const {times, html, modifyFormList} = this
-        modifyFormList({keys: ['setTitle', 'isSave'], index:times, val: html })
+        modifyFormList({keys: ['setTitle', 'isSave'], index: times, val: html})
         this.$emit('changeCanEditor')
       },
       cancel() {
@@ -52,7 +53,7 @@
 </script>
 <style lang="scss" scoped>
   .operation {
-    margin-top:10px;
+    margin-top: 10px;
     text-align: center;
   }
 

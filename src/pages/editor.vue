@@ -6,9 +6,9 @@
           <ul>
             <li
               class="title-widget"
-              :key="item.type"
-              @click="addWidget(item.type)"
-              v-for="item in titleWidget">{{ item.name}}
+              :key="item.index"
+              @click="addWidget(item.index)"
+              v-for="item in questionType">{{ item.name}}
             </li>
           </ul>
         </el-tab-pane>
@@ -21,6 +21,7 @@
     </div>
     <div class="editor-main fl">
       <div class="survey-wrap">
+        <Form-title></Form-title>
         <el-form
           label-width="auto">
           <Draggable
@@ -57,12 +58,14 @@
     </div>
     <div class="editor-right fr">
       <el-button @click="preview">预览</el-button>
+      <el-button @click="save">保存</el-button>
     </div>
   </div>
 </template>
 <script>
   import EditorItem from '@/components/editor-item'
   import EditorText from '@/components/editor-text'
+  import FormTitle from '@/components/formtitle'
   import Draggable from 'vuedraggable'
   import titleWidget from '@/utils/component-name'
   import Radio from '@/components/radio'
@@ -70,24 +73,26 @@
   import MySelect from '@/components/myselect'
   import LineText from '@/components/line-text'
   import Description from '@/components/description'
-  import {mapState, mapMutations, mapGetters} from 'vuex'
+  import {createNamespacedHelpers} from 'vuex'
+
+  const {mapState, mapMutations, mapGetters, mapActions} = createNamespacedHelpers('editorItem')
 
   export default {
     name: 'editor',
     data() {
       return {
-        titleWidget,
         isShowCommand: []
       }
     },
     computed: {
-      ...mapGetters('editorItem', ['widgetName']),
+      ...mapGetters(['widgetName']),
+      ...mapState(['questionType']),
       dragOption() {
         let opt = {animation: 150, disabled: false}
         const {formList} = this
 
-        for(let i in formList){
-          if(formList[i].canEditor){
+        for (let i in formList) {
+          if (formList[i].canEditor) {
             opt.disabled = true
             break
           }
@@ -110,7 +115,8 @@
       }
     },
     methods: {
-      ...mapMutations('editorItem', ['modifyFormList']),
+      ...mapActions(['getQuestionType']),
+      ...mapMutations(['modifyFormList']),
       changeIsShowCommand(index, val) {
         this.$set(this.isShowCommand, index, val)
       },
@@ -149,7 +155,13 @@
           })
         }
 
+      },
+      save() {
+
       }
+    },
+    created() {
+      this.getQuestionType()
     },
     components: {
       EditorItem,
@@ -159,7 +171,8 @@
       MySelect,
       LineText,
       Description,
-      Draggable
+      Draggable,
+      FormTitle
     }
   }
 </script>

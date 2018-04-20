@@ -8,11 +8,11 @@
       </el-form-item>
       <el-form-item label="题目类型：">
         <el-select disabled v-model="formInfo.titleType" placeholder="请选择类型">
-          <el-option label="单选" value="0"></el-option>
-          <el-option label="多选" value="1"></el-option>
-          <el-option label="下拉菜单" value="2"></el-option>
-          <el-option label="单行文本" value="3"></el-option>
-          <el-option label="多行文本" value="4"></el-option>
+          <el-option label="单选" :value="0"></el-option>
+          <el-option label="多选" :value="1"></el-option>
+          <el-option label="下拉菜单" :value="2"></el-option>
+          <el-option label="单行文本" :value="3"></el-option>
+          <el-option label="多行文本" :value="4"></el-option>
         </el-select>
         <el-checkbox v-model="formInfo.isRequired">是否必填</el-checkbox>
       </el-form-item>
@@ -34,7 +34,9 @@
   </div>
 </template>
 <script>
-  import {mapState, mapMutations, mapGetters} from 'vuex'
+  import {createNamespacedHelpers} from 'vuex'
+
+  const {mapState, mapMutations} = createNamespacedHelpers('editorItem')
 
   export default {
     data() {
@@ -50,7 +52,7 @@
     },
     props: ['times'],
     computed: {
-      ...mapState('editorItem', ['formList']),
+      ...mapState(['formList']),
       formInfo: {
         get() {
           let {formList, times} = this
@@ -64,7 +66,7 @@
       }
     },
     methods: {
-      ...mapMutations('editorItem', ['modifyFormList']),
+      ...mapMutations(['modifyFormList']),
       enter() {
         const {times, formInfo} = this
         this.$refs['addItem-form'].validate(valid => {

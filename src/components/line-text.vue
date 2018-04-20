@@ -13,7 +13,9 @@
 </template>
 <script>
   import EditorItem from '@/components/editor-item'
-  import {mapState, mapMutations} from 'vuex'
+  import {createNamespacedHelpers} from 'vuex'
+
+  const {mapState, mapMutations} = createNamespacedHelpers('editorItem')
 
   export default {
     name: 'LineText',
@@ -24,8 +26,8 @@
       }
     },
     computed: {
-      ...mapState('editorItem', ['formList']),
-      rules(){
+      ...mapState(['formList']),
+      rules() {
         return {required: this.data.isRequired}
       },
       canEditor: {
@@ -43,10 +45,10 @@
         let type
 
         switch (formList[times].titleType) {
-          case '3':
+          case 3:
             type = 'text';
             break;
-          case '4':
+          case 4:
             type = 'textarea';
             break;
         }
@@ -55,7 +57,7 @@
       }
     },
     methods: {
-      ...mapMutations('editorItem', ['modifyFormList'])
+      ...mapMutations(['modifyFormList'])
     },
     components: {
       EditorItem
