@@ -1,6 +1,9 @@
 <template>
-  <div class="preview margin-auto">
-    <el-form :model="formInfo" ref="form" label-width="130px">
+  <div class="preview-container">
+    <el-form
+      class="preview margin-auto"
+      label-position="top"
+      :model="formInfo" ref="form" label-width="130px">
       <h1 class="form-name" v-html="title"></h1>
       <div
         v-for="(item, parentIndex) in formList"
@@ -14,7 +17,7 @@
           <el-radio-group v-if="item.titleType === 0" v-model="formInfo[parentIndex]">
             <el-radio :key="index" v-for="(child, index) in item.currentItem" :label="index">{{ child }}</el-radio>
           </el-radio-group>
-          <el-checkbox-group v-else-if="item.titleType === 1" v-model="formInfo['arr' + parentIndex]">
+          <el-checkbox-group class="my-checkbox" v-else-if="item.titleType === 1" v-model="formInfo['arr' + parentIndex]">
             <el-checkbox :key="index" v-for="(child, index) in item.currentItem" :label="index">{{child}}</el-checkbox>
           </el-checkbox-group>
           <el-select v-else-if="item.titleType === 2" v-model="formInfo[parentIndex]">
@@ -51,7 +54,7 @@
 
       formList.forEach(item => {
         let titleType = item.titleType
-        if (titleType === '1') {
+        if (titleType === 1) {
           this.$set(this.formInfo, 'arr' + num, [])
         }
         num++
@@ -60,6 +63,13 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import "../assets/scss/reset-common";
+
+  .preview-container {
+    background: #f1f1f1;
+    height: 100vh;
+  }
+
   .preview {
     width: 800px;
     padding: 0 30px;
@@ -67,9 +77,11 @@
     background-color: #fff;
     overflow: auto;
   }
+
   .inner {
     min-height: 100px;
   }
+
   .form-name {
     text-align: center;
     padding: 30px 0;

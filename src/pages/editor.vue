@@ -23,6 +23,7 @@
       <div class="survey-wrap">
         <Form-title></Form-title>
         <el-form
+          label-position="top"
           label-width="auto">
           <Draggable
             :options="dragOption"
@@ -48,6 +49,7 @@
                 <div class="command" v-show="isShowCommand[index]">
                   <i class="el-icon-close" title="删除" @click="delComponent(index, $event)"></i>
                   <i class="el-icon-document" title="复制" @click="copyComponent(index, $event)"></i>
+                  <i class="el-icon-star-on" title="收藏" @click="collection(index, $event)"></i>
                 </div>
               </div>
             </component>
@@ -67,13 +69,13 @@
   import EditorText from '@/components/editor-text'
   import FormTitle from '@/components/formtitle'
   import Draggable from 'vuedraggable'
-  import titleWidget from '@/utils/component-name'
   import Radio from '@/components/radio'
   import Checkbox from '@/components/checkbox'
   import MySelect from '@/components/myselect'
   import LineText from '@/components/line-text'
   import Description from '@/components/description'
   import {createNamespacedHelpers} from 'vuex'
+  import {getObjectVal} from '@/utils/common'
 
   const {mapState, mapMutations, mapGetters, mapActions} = createNamespacedHelpers('editorItem')
 
@@ -116,7 +118,7 @@
     },
     methods: {
       ...mapActions(['getQuestionType']),
-      ...mapMutations(['modifyFormList']),
+      ...mapMutations(['modifyFormList', 'setCollectionList']),
       changeIsShowCommand(index, val) {
         this.$set(this.isShowCommand, index, val)
       },
@@ -124,6 +126,14 @@
         const {modifyFormList} = this
 
         modifyFormList({keys: ['copy'], index})
+        event.stopPropagation()
+      },
+      collection(index, event) {
+        const {formList, setCollectionList} = this
+
+        let collectionVal = getObjectVal(formList[index], ['title', 'currentItem', 'titleType', 'isRequired'])
+
+        setCollectionList({command: 'add', val: collectionVal})
         event.stopPropagation()
       },
       changeCanEditor(index, val = false) {
@@ -187,13 +197,6 @@
     right: 0;
     left: 0;
     background-color: #f0f0f0;
-    .el-form-item__content {
-      max-width: 500px;
-      float: left;
-    }
-    .el-form-item__label {
-      min-width: 100px;
-    }
     .editor-slidebar {
       width: 300px;
       height: 100%;
@@ -211,19 +214,18 @@
     }
 
     .editor-main {
-      margin-left: 50px;
+      margin-left: 100px;
       height: 100%;
     }
 
     .survey-wrap {
-      max-width: 1000px;
-      min-width: 800px;
+      width:800px;
       padding: 0 30px;
       height: 100%;
       background-color: #fff;
       overflow: auto;
       .inner {
-        min-height: 100px;
+        min-height: 140px;
       }
     }
   }

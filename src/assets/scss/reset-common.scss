@@ -1,0 +1,11 @@
+/**
+* create By Songbw on 2018/4/23
+* */
+.my-checkbox {
+  .el-checkbox + .el-checkbox {
+    margin-left: 0;
+  }
+  .el-checkbox {
+    margin-right: 30px;
+  }
+}

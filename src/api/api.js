@@ -5,7 +5,7 @@ const axios = require('axios')
 // axios.defaults.baseURL = 'http://10.10.10.110:8080'
 axios.defaults.baseURL = '/'
 
-function newError(err) {
+function newError(err) {``
   return () => {
     throw new Error(err)
   }

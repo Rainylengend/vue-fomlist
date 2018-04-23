@@ -10,6 +10,7 @@ export default {
     title: '<p>问卷标题</p>',
     formList: [],
     questionType: [],
+    collectionList: []
   },
   actions: {
     getQuestionType({commit}) {
@@ -19,6 +20,25 @@ export default {
     }
   },
   mutations: {
+    setCollectionList(state, opt) {
+      let commandHandle = {
+        init(state, val) {
+          state.collectionList = val
+        },
+        add(state, val) {
+          state.collectionList.push(val)
+        },
+        del(state, index) {
+          state.collectionList.splice(index, 1)
+        }
+      }
+
+      if (opt instanceof Object) {
+        const {command, val, index} = opt
+        commandHandle[command] && commandHandle[command](state, deepClone(val), index)
+      }
+
+    },
     setTitle(state, val) {
       state.title = val
     },

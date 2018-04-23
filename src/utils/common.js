@@ -14,3 +14,26 @@ export function deepClone(arr) {
   }
   return result;
 }
+
+export function getObjectVal(obj, keys) {
+  let newObj = {}
+
+  function isKeys(val) {
+    let flag = false
+    for(let i in keys) {
+      if(val === keys[i]){
+        flag = true
+        return flag
+      }
+    }
+    return flag
+  }
+
+  for(let i in obj){
+    if( isKeys(i) ){
+      newObj[i] = obj[i]
+    }
+  }
+
+  return newObj
+}
