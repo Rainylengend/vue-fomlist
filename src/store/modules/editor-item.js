@@ -37,7 +37,10 @@ export default {
     setCollectionList(state, opt) {
       let commandHandle = {
         init(state, val) {
-          state.collectionList = val
+          state.collectionList = val.map(item => {
+            item.canEditor = true
+            return item
+          })
         },
         add(state, val) {
           addFavourite.sendReq(() => {
