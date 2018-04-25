@@ -9,8 +9,8 @@
         <el-radio
           :label="index"
           :key="index"
-          v-for="(item, index) in formList[times].currentItem">
-          {{ item }}
+          v-for="(item, index) in formList[times].options">
+          {{ item.text }}
         </el-radio>
       </el-radio-group>
     </el-form-item>
@@ -33,7 +33,7 @@
     computed: {
       ...mapState(['formList']),
       rules() {
-        return {required: this.data.isRequired}
+        return {required: this.data.required}
       },
       canEditor: {
         get() {

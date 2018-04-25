@@ -8,7 +8,7 @@
       :rules="rules"
       :label="`${formList[times].title}：`">
       <el-checkbox-group v-model="formInfo">
-        <el-checkbox :label="index" name="type" v-for="(item, index) in formList[times].currentItem" :key="index">{{item}}</el-checkbox>
+        <el-checkbox :label="index" name="type" v-for="(item, index) in formList[times].options" :key="index">{{item.text}}</el-checkbox>
       </el-checkbox-group>
     </el-form-item>
     <slot name="mask" v-if="!canEditor"></slot>
@@ -29,7 +29,7 @@
     computed: {
       ...mapState(['formList']),
       rules() {
-        return {required: this.data.isRequired}
+        return {required: this.data.required}
       },
       canEditor: {
         get() {

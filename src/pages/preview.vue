@@ -1,5 +1,5 @@
 <template>
-  <div class="preview-container">
+  <div class="preview-container" :style="{background: theme}">
     <el-form
       class="preview margin-auto"
       label-position="top"
@@ -8,23 +8,23 @@
       <div
         v-for="(item, parentIndex) in formList"
         class="inner">
-        <div v-html="item.title" v-if="item.titleType === 13"></div>
+        <div v-html="item.title" v-if="item.type === 13"></div>
         <el-form-item
           v-else
-          :rules="{required: item.isRequired}"
+          :rules="{required: item.required}"
           :key="parentIndex"
           :label="`${item.title}：`">
-          <el-radio-group v-if="item.titleType === 0" v-model="formInfo[parentIndex]">
-            <el-radio :key="index" v-for="(child, index) in item.currentItem" :label="index">{{ child }}</el-radio>
+          <el-radio-group v-if="item.type === 0" v-model="formInfo[parentIndex]">
+            <el-radio :key="index" v-for="(child, index) in item.options" :label="index">{{ child.text }}</el-radio>
           </el-radio-group>
-          <el-checkbox-group class="my-checkbox" v-else-if="item.titleType === 1" v-model="formInfo['arr' + parentIndex]">
-            <el-checkbox :key="index" v-for="(child, index) in item.currentItem" :label="index">{{child}}</el-checkbox>
+          <el-checkbox-group class="my-checkbox" v-else-if="item.type === 1" v-model="formInfo['arr' + parentIndex]">
+            <el-checkbox :key="index" v-for="(child, index) in item.options" :label="index">{{child.text}}</el-checkbox>
           </el-checkbox-group>
-          <el-select v-else-if="item.titleType === 2" v-model="formInfo[parentIndex]">
-            <el-option :key="index" v-for="(child, index) in item.currentItem" :label="child" :value="index"></el-option>
+          <el-select v-else-if="item.type === 2" v-model="formInfo[parentIndex]">
+            <el-option :key="index" v-for="(child, index) in item.options" :label="child.text" :value="index"></el-option>
           </el-select>
-          <el-input v-else-if="item.titleType === 3" v-model="formInfo[parentIndex]"></el-input>
-          <el-input v-else-if="item.titleType === 4" type="textarea" v-model="formInfo[parentIndex]"></el-input>
+          <el-input v-else-if="item.type === 3" v-model="formInfo[parentIndex]"></el-input>
+          <el-input v-else-if="item.type === 4" type="textarea" v-model="formInfo[parentIndex]"></el-input>
         </el-form-item>
       </div>
 
@@ -41,7 +41,7 @@
       }
     },
     computed: {
-      ...mapState('editorItem', ['formList', 'title'])
+      ...mapState('editorItem', ['formList', 'title', 'theme'])
     },
     filters: {
       obj(val) {
@@ -66,16 +66,16 @@
   @import "../assets/scss/reset-common";
 
   .preview-container {
-    background: #f1f1f1;
+    background-attachment: fixed;
     height: 100vh;
+    overflow: auto;
   }
 
   .preview {
     width: 800px;
     padding: 0 30px;
-    height: 100%;
+    min-height: 100%;
     background-color: #fff;
-    overflow: auto;
   }
 
   .inner {

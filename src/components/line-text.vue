@@ -28,7 +28,7 @@
     computed: {
       ...mapState(['formList']),
       rules() {
-        return {required: this.data.isRequired}
+        return {required: this.data.required}
       },
       canEditor: {
         get() {

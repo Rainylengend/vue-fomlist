@@ -8,9 +8,9 @@
       :label="`${formList[times].title}：`">
       <el-select v-model="formInfo" placeholder="请选择">
         <el-option
-          v-for="(item, index) in formList[times].currentItem"
+          v-for="(item, index) in formList[times].options"
           :key="index"
-          :label="item"
+          :label="item.text"
           :value="index">
         </el-option>
       </el-select>
@@ -34,7 +34,7 @@
     computed: {
       ...mapState(['formList']),
       rules() {
-        return {required: this.data.isRequired}
+        return {required: this.data.required}
       },
       canEditor: {
         get() {

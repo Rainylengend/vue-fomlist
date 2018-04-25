@@ -7,24 +7,24 @@
         <el-input v-model="formInfo.title"></el-input>
       </el-form-item>
       <el-form-item label="题目类型：">
-        <el-select disabled v-model="formInfo.titleType" placeholder="请选择类型">
+        <el-select disabled v-model="formInfo.type" placeholder="请选择类型">
           <el-option label="单选" :value="0"></el-option>
           <el-option label="多选" :value="1"></el-option>
           <el-option label="下拉菜单" :value="2"></el-option>
           <el-option label="单行文本" :value="3"></el-option>
           <el-option label="多行文本" :value="4"></el-option>
         </el-select>
-        <el-checkbox v-model="formInfo.isRequired">是否必填</el-checkbox>
+        <el-checkbox v-model="formInfo.required">是否必填</el-checkbox>
       </el-form-item>
       <el-form-item
-        v-if="formInfo.currentItem.length > 0"
+        v-if="formInfo.options.length > 0"
         :label="`选项${index}`"
-        v-for="(item, index) in formInfo.currentItem"
+        v-for="(item, index) in formInfo.options"
         :key="index">
-        <el-input placeholder="选项" v-model="formInfo.currentItem[index]"></el-input>
+        <el-input placeholder="选项" v-model="formInfo.options[index].text"></el-input>
       </el-form-item>
-      <el-form-item v-if="formInfo.currentItem.length > 0">
-        <el-button @click="addCurrentItem" calss="addItem">新建选项</el-button>
+      <el-form-item v-if="formInfo.options.length > 0">
+        <el-button @click="addOptions" calss="addItem">新建选项</el-button>
       </el-form-item>
       <div class="operation">
         <el-button type="primary" @click="enter">确定</el-button>
@@ -61,7 +61,7 @@
         set(val) {
           let {times} = this
 
-          this.modifyFormList({index: times, keys: ['currentItem'], command: [val]})
+          this.modifyFormList({index: times, keys: ['options'], command: [val]})
         }
       }
     },
@@ -76,7 +76,7 @@
           }
         })
       },
-      addCurrentItem() {
+      addOptions() {
         this.formInfo = 'add'
       },
       cancel() {
