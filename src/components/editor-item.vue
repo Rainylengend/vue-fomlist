@@ -35,7 +35,7 @@
 </template>
 <script>
   import {createNamespacedHelpers} from 'vuex'
-
+  import {createSurvey} from '@/api/api'
   const {mapState, mapMutations} = createNamespacedHelpers('editorItem')
 
   export default {
@@ -52,7 +52,7 @@
     },
     props: ['times'],
     computed: {
-      ...mapState(['formList']),
+      ...mapState(['formList', 'surveyId']),
       formInfo: {
         get() {
           let {formList, times} = this
@@ -66,13 +66,20 @@
       }
     },
     methods: {
-      ...mapMutations(['modifyFormList']),
+      ...mapMutations(['modifyFormList', 'setSurveyId']),
       enter() {
-        const {times, formInfo} = this
+        const {times, formInfo, setSurveyId, surveyId} = this
         this.$refs['addItem-form'].validate(valid => {
           if (valid) {
             this.modifyFormList({index: times, keys: ['all', 'isSave'], val: formInfo})
             this.$emit('changeCanEditor')
+            if(!surveyId){
+              createSurvey.sendReq((data) => {
+                let id = data.obj.id
+
+                setSurveyId(id)
+              })
+            }
           }
         })
       },

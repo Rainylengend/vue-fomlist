@@ -53,9 +53,6 @@ class GetApi {
   setParams(data) {
     this.params = Object.assign(this.params, data)
 
-    for (let i in this.params) {
-      this.params[i] = JSON.stringify(this.params[i])
-    }
     return this
   }
 }
@@ -65,9 +62,13 @@ class GetApi {
 // export const saveSurvey = new GetApi({url: '/survey/save'}) //保存问卷
 // export const favouriteList = new GetApi({method: 'get', url: '/question/favourite'}) //收藏列表
 // export const addFavourite = new GetApi({url: '/question/favourite'}) //添加收藏
+// export const getMySurvey = new GetApi({url: '/survey'}) //获取我的问卷
+// export const getTempTag = new GetApi({method: 'get', url: '/survey/templates/tag'}) //获取问卷模板Tag
+// export const getSingleSurvey = new GetApi({url: '/survey/get'}) //获取问卷模板Tag
 
 
 export const getQuestionType = new GetApi({method: 'get', url: '/static/questiontype.json'}) //获取题目类型
 export const createSurvey = new GetApi({method: 'get', url: '/static/create.json'}) //创建问卷
 export const favouriteList = new GetApi({method: 'get', url: '/static/favouritelist.json'}) //收藏列表
 export const addFavourite = new GetApi({method: 'get', url: '/static/favouritelist.json'}) //添加收藏
+export const getMySurvey = new GetApi({method:'get', url: '/static/mysurvey.json'}) //获取我的问卷

@@ -26,6 +26,9 @@
       }
     },
     props: ['times', 'data'],
+    create() {
+      this.data1 = this.data
+    },
     computed: {
       ...mapState(['formList']),
       rules() {

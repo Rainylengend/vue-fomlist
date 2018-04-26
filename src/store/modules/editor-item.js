@@ -28,7 +28,17 @@ export default {
     }
   },
   mutations: {
+    resetEditorItem(state){
+      state.surveyId = null
+      window.sessionStorage.removeItem('surveyId')
+      state.title = '<p>问卷标题</p>'
+      state.theme = '#f1f1f1'
+      state.formList = []
+      state.questionType = []
+      state.collectionList = []
+    },
     setSurveyId(state, val) {
+      window.sessionStorage.surveyId = val
       state.surveyId = val
     },
     setTheme(state, val) {
@@ -102,13 +112,15 @@ export default {
         })
 
       } else {
-        tempFormList.type = opt
+        if(opt === 3 || opt === 4 || opt === 0 || opt === 1 || opt === 2 || opt === 13){
+          tempFormList.type = opt
 
-        if (opt === 3 || opt === 4) {
-          tempFormList.options.length = []
+          if (opt === 3 || opt === 4) {
+            tempFormList.options.length = []
+          }
+
+          state.formList.push(tempFormList)
         }
-
-        state.formList.push(tempFormList)
       }
 
     }

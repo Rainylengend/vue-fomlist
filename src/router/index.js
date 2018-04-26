@@ -1,20 +1,37 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'CreateSurvey',
-      component: () => import('@/pages/createsurvey')
-    },
-    {
-      path: '/editor/:id',
-      name: 'Editor',
-      component: () => import('@/pages/editor')
+      name: 'index',
+      redirect: {name: 'CreateSurvey'},
+      component: () => import('@/pages/index'),
+      children: [
+        {
+          path: 'createsurvey',
+          name: 'CreateSurvey',
+          component: () => import('@/pages/createsurvey')
+        },
+        {
+          path: 'mysurvey',
+          name: 'mySurvey',
+          component: () => import('@/pages/mysurvey')
+        },
+        {
+          path: 'editor',
+          name: 'Editor',
+          component: () => import('@/pages/editor')
+        },
+        {
+          path: '/template',
+          name: 'Template',
+          component: () => import('@/pages/templatechoose')
+        }
+      ]
     },
     {
       path: '/preview',
@@ -22,4 +39,6 @@ export default new Router({
       component: () => import('@/pages/preview')
     }
   ]
-});
+})
+
+export default router

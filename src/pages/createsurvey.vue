@@ -5,42 +5,36 @@
         <div class="content">
           <p>创建问卷</p>
           <p>从一份空白问卷开始创建</p>
-          <el-button class="skip-button" icon="el-icon-plus" @click="routerSkip">开始</el-button>
+          <el-button class="skip-button" icon="el-icon-plus" @click="routerSkip('Editor')">开始</el-button>
         </div>
       </el-col>
       <el-col :span="12" class="command">
         <div class="content">
           <p>选择问卷模板</p>
           <p>使用问卷提供的专业模板</p>
-          <el-button class="skip-button" icon="el-icon-plus">开始</el-button>
+          <el-button class="skip-button" icon="el-icon-plus" @click="routerSkip('Template')">开始</el-button>
         </div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-  import {createSurvey} from '@/api/api'
   import {mapMutations} from 'vuex'
+
   export default {
     name: 'CreateSurvey',
     methods: {
-      ...mapMutations('editorItem', ['setSurveyId']),
-      routerSkip() {
-        const {setSurveyId} = this
+      ...mapMutations('editorItem', ['resetEditorItem']),
+      routerSkip(name) {
+        const {resetEditorItem} = this
 
-        createSurvey.sendReq((data) => {
-          if(data.success){
-            let id = data.obj.id
+        if(name === 'Editor'){
+          resetEditorItem()
+          this.$router.push({name: 'Editor'})
+        }else if(name === 'Template'){
+          this.$router.push({name:'Template'})
+        }
 
-            setSurveyId(id)
-            this.$router.push({name: 'Editor', params: {id}})
-          }else{
-            this.$message({
-              message: data.msg,
-              type: 'warning'
-            })
-          }
-        })
       }
     }
   }
@@ -62,13 +56,13 @@
       position: relative;
       text-align: center;
       color: #fff;
-      height: 100vh;
+      height: calc(100vh - 61px);
       font-size: 26px;
       &:nth-of-type(1) {
-        background: $blue;
+        background: $green;
       }
       &:nth-of-type(2) {
-        background: $green;
+        background: $blue;
       }
     }
   }

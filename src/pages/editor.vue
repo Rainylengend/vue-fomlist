@@ -105,7 +105,7 @@
   import Description from '@/components/description'
   import {createNamespacedHelpers} from 'vuex'
   import {getObjectVal} from '@/utils/common'
-  import {saveSurvey} from '@/api/api'
+  import {saveSurvey, getSingleSurvey} from '@/api/api'
 
   const {mapState, mapMutations, mapGetters, mapActions} = createNamespacedHelpers('editorItem')
 
@@ -138,7 +138,7 @@
     },
     computed: {
       ...mapGetters(['widgetName']),
-      ...mapState(['questionType', 'theme', 'collectionList', 'title']),
+      ...mapState(['questionType', 'theme', 'collectionList', 'title', 'surveyId']),
       dragOption() {
         let opt = {animation: 150, disabled: false}
         const {formList} = this
@@ -168,7 +168,7 @@
     },
     methods: {
       ...mapActions(['getQuestionType', 'getCollectionList']),
-      ...mapMutations(['modifyFormList', 'setCollectionList', 'setTheme']),
+      ...mapMutations(['modifyFormList', 'setCollectionList', 'setTheme', 'setSurveyId', 'setTitle']),
       switchTheme(color) {
         const {setTheme} = this
 
@@ -210,7 +210,6 @@
         const {modifyFormList} = this
 
         if (typeof type === 'object') {
-          console.log(type);
           modifyFormList({keys: ['addHasValItem'], val: type})
         } else {
           modifyFormList(type)
@@ -227,7 +226,7 @@
         const {widgetName} = this
 
         if (widgetName.length > 0) {
-          this.$router.push({name:'Preview'})
+          this.$router.push({name: 'Preview'})
         } else {
           this.$message({
             message: '你好像没添加任何选项哦~',
@@ -237,8 +236,7 @@
 
       },
       save() {
-        const {title, $route, formList} = this
-        const id = $route.params.id
+        const {title, formList, surveyId} = this
         const questions = formList.map(item => {
           return getObjectVal(item, ['title', 'type', 'options', 'required'])
         })
@@ -247,12 +245,33 @@
             message: data.msg,
             type: 'success'
           })
-        }, {id, name: title, questions}, 'data')
+        }, {id: surveyId, name: title, questions}, 'data')
+      },
+      reRenderFormList() {
+        const sessionSurveyId = window.sessionStorage.surveyId
+        const {setSurveyId, modifyFormList, surveyId, setTitle} = this
+
+        if (sessionSurveyId && !surveyId) {
+          setSurveyId(sessionSurveyId)
+          getSingleSurvey.sendReq(data => {
+            let info = data.obj
+            let questions = info.questions.map(item => {
+              item = getObjectVal(item, ['title', 'type', 'options', 'required'])
+              item.canEditor = false
+              item.isSave = true
+              return item
+            })
+            setSurveyId(info.id)
+            setTitle(info.name)
+            modifyFormList({val: questions, keys: ['sort']})
+          }, {id: sessionSurveyId})
+        }
       }
     },
     created() {
       this.getQuestionType()
       this.getCollectionList()
+      this.reRenderFormList()
     },
     components: {
       EditorItem,
@@ -296,13 +315,13 @@
   }
 
   main {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 131px);
     position: relative;
   }
 
   .editor-page {
     position: fixed;
-    top: 0;
+    top: 61px;
     bottom: 0;
     right: 0;
     left: 0;
