@@ -49,11 +49,11 @@
       }
     },
     created() {
-      const {formList, formInfo} = this
+      const {formList} = this
       let num = 0
 
       formList.forEach(item => {
-        let titleType = item.titleType
+        let titleType = item.type
         if (titleType === 1) {
           this.$set(this.formInfo, 'arr' + num, [])
         }
